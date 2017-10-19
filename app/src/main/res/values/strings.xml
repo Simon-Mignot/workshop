@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">WaterBlock</string>
+    <string name="rate">Rate :</string>
+    <string name="balance">Balance :</string>
+    <string name="payee">Payee :</string>
+    <string name="ownername">OwnerName :</string>
+    <string name="account_id">Account ID :</string>
+    <string name="bills_history">Bills History</string>
+    <string name="refresh">Refresh</string>
+    <string name="actual_conso">Actual Conso :</string>
+    <string name="textview">TextView</string>
+</resources>
