@@ -16,8 +16,8 @@ import java.util.Date;
 
 public class Balance
 {
-    Date datetime;
-    Double balance;
+    public Date datetime;
+    public Double balance;
 
     public Balance(JSONObject object)
     {

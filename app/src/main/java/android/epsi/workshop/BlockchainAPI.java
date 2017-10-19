@@ -2,6 +2,7 @@ package android.epsi.workshop;
 
 import android.app.Activity;
 import android.content.Context;
+import android.epsi.workshop.Models.Account;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -14,6 +15,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -24,6 +26,8 @@ public class BlockchainAPI
 {
 
     static private BlockchainAPI instance = null;
+
+    public Account account;
 
     public interface BlockchainAPIInterface
     {
@@ -87,11 +91,15 @@ public class BlockchainAPI
                     @Override
                     public void onResponse(JSONArray response)
                     {
-                        //JSONObject meter = response.getJSONObject(response["statementValue"]);
+                        try
+                        {
+                            JSONObject obj = response.getJSONObject(response.length()-1);
+                            bcInterface.OnMeterReceived(obj.getDouble("statementValue"));
 
-
-                        Log.d("RESPONSE", response.toString());
-                        bcInterface.OnMeterReceived(5.5);
+                        } catch(JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener()

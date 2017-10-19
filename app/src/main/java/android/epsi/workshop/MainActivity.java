@@ -1,8 +1,10 @@
 package android.epsi.workshop;
 
+import android.content.Intent;
 import android.epsi.workshop.Models.Account;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,12 +25,15 @@ public class MainActivity extends AppCompatActivity implements BlockchainAPI.Blo
 
     Account account;
 
+    MainActivity activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BlockchainAPI.init(this);
+        activity = this;
 
         String id = getIntent().getExtras().getString("objectID");
         Boolean bool = getIntent().getExtras().getBoolean("type");
@@ -65,7 +70,8 @@ public class MainActivity extends AppCompatActivity implements BlockchainAPI.Blo
     {
         @Override
         public void onClick(View v) {
-            //Do something
+            Intent intent = new Intent(activity, HistoryActivity.class);
+            startActivity(intent);
         }
     };
 
@@ -81,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements BlockchainAPI.Blo
             tvOwnerName.setText(account.owner.name);
         if(account.provider != null)
             tvPayee.setText(account.provider.name);
-        tvBalance.setText(account.balances.get(account.balances.size() - 1).toString());
+        tvBalance.setText(account.balances.get(account.balances.size() - 1).balance.toString());
         tvRate.setText(account.rate.toString());
     }
 
@@ -96,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements BlockchainAPI.Blo
     public void OnMeterReceived(Double meter)
     {
         tvConso.setText(String.valueOf(meter));
+        Log.d("MeterReceived",String.valueOf(meter) );
     }
 
     @Override
@@ -114,5 +121,6 @@ public class MainActivity extends AppCompatActivity implements BlockchainAPI.Blo
     public void OnAccountFullyLoaded()
     {
         LoadDisplayInfos(account);
+        BlockchainAPI.getInstance().account = this.account;
     }
 }
